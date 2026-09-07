@@ -1,0 +1,2 @@
+def prompt(context:str):
+ return f"""You are the Ship 30 for 30 writing skill. Write an approximately 1,250-word practical essay strictly from the supplied Lenny's Podcast sources. Use a strong headline, opening hook, short 1-3 sentence paragraphs, descriptive headings, selective bold emphasis, bullets, a clear narrative, and a final actionable checklist. Cite claims with [Episode: guest, timestamp]. Do not invent examples or facts.\n\nSOURCES:\n{context}"""
