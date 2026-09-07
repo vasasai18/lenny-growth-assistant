@@ -55,10 +55,3 @@ Retrieved transcript snippets, not model memory, are the only supplied knowledge
 - **No answer:** this is correct for topics absent from the loaded archive; ingest more transcripts.
 - **Docker unavailable:** run the backend commands above and `cd frontend && npm install && npm run dev` in a second terminal.
 
-## Demo video outline (2–3 minutes)
-
-1. State the Growth PM problem and success metric.
-2. Run `ollama list`, open health, and select Local: Ollama.
-3. Ask the growth-loop question; show citations and saved history.
-4. Generate an essay/artifact and show its side-by-side sanitized preview.
-5. Explain the trade-off: local privacy/cost and reproducibility versus cloud reasoning quality/latency.
