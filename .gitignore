@@ -1,6 +1,40 @@
+# Secrets and local configuration
 .env
+.env.local
+.env.*.local
+!.env.example
+
+# Python
 __pycache__/
+*.py[cod]
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .venv/
+venv/
+.coverage
+htmlcov/
+
+# JavaScript
 node_modules/
-*.db
+dist/
+.vite/
+coverage/
+*.tsbuildinfo
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Logs and generated data
+*.log
+data/
+transcripts/
+artifacts/
+work/
+
+# Agent/runtime state that may contain sensitive content
+.claude/
+.pi/
