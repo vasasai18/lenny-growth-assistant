@@ -8,7 +8,6 @@ services:
     dockerContext: .
     healthCheckPath: /api/health
     autoDeployTrigger: commit
-    initialDeployHook: python scripts/download_transcripts.py && python scripts/ingest.py
     envVars:
       - key: DATABASE_URL
         fromDatabase:
