@@ -29,10 +29,11 @@ async def bootstrap() -> None:
     try:
         existing = await chunk_count()
         if existing:
-            print(f"Hosted bootstrap: {existing} transcript chunks already present; skipping ingestion.")
-            return
-
-        print("Hosted bootstrap: vector store is empty; downloading transcripts.")
+            print(
+                f"Hosted bootstrap: resuming from {existing} existing transcript chunks."
+            )
+        else:
+            print("Hosted bootstrap: vector store is empty; downloading transcripts.")
         dataset_dir = Path(settings.transcript_data_dir)
         download(settings.transcript_repository_url, dataset_dir)
         await ingest()
