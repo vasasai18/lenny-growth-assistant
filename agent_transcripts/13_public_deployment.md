@@ -1,0 +1,3 @@
+# Agent Transcript 13: Free Public Deployment
+
+Render was selected because it supports free Docker web services, static assets, managed PostgreSQL, HTTPS, Git deployment, and pgvector. One container serves React and FastAPI to avoid a second sleeping web service and cross-origin setup. The hosted environment cannot access macOS Ollama, so it uses `fastembed` with `all-MiniLM-L6-v2` for 384-dimensional query and corpus embeddings while Anthropic handles generation. Local Docker Compose continues using Ollama and 768-dimensional `nomic-embed-text`. The Blueprint prompts for the Anthropic secret instead of committing it and performs transcript ingestion on the first deployment.

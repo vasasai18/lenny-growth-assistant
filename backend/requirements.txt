@@ -3,6 +3,7 @@ anthropic==1.7.0
 bleach[css]==6.2.0
 claude-agent-sdk==0.2.157
 fastapi==0.141.1
+fastembed==0.8.0
 greenlet==3.2.3
 httpx==0.28.1
 pgvector==0.4.1

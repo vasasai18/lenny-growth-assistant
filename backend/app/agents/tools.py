@@ -6,7 +6,7 @@ from claude_agent_sdk import SdkMcpTool, create_sdk_mcp_server, tool
 
 from app.config import Settings
 from app.database import AsyncSessionFactory
-from app.rag.embeddings import OllamaEmbeddingClient
+from app.rag.embeddings import create_embedding_client
 from app.rag.retriever import (
     INSUFFICIENT_INFORMATION_MESSAGE,
     RetrievedChunk,
@@ -41,11 +41,7 @@ class AgentToolBundle:
 
 class TranscriptToolService:
     def __init__(self, settings: Settings) -> None:
-        embedder = OllamaEmbeddingClient(
-            base_url=settings.ollama_base_url,
-            model=settings.ollama_embedding_model,
-            expected_dimension=settings.embedding_dimension,
-        )
+        embedder = create_embedding_client(settings)
         self.retriever = TranscriptRetriever(
             embedding_client=embedder,
             score_threshold=settings.retrieval_score_threshold,

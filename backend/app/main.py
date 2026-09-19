@@ -1,12 +1,14 @@
 import logging
 import time
 import uuid
+from pathlib import Path
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.api import artifacts, chat, health, sessions
 from app.config import get_settings
@@ -150,3 +152,5 @@ app.include_router(sessions.router)
 app.include_router(chat.router)
 app.include_router(artifacts.router)
 
+if settings.static_dir and Path(settings.static_dir).is_dir():
+    app.mount("/", StaticFiles(directory=settings.static_dir, html=True), name="frontend")

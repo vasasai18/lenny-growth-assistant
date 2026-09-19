@@ -7,7 +7,7 @@ import { api, Artifact, Mode, Provider, Session, SessionSummary } from "./lib/ap
 
 export default function App() {
   const [sessions, setSessions] = useState<SessionSummary[]>([]); const [session, setSession] = useState<Session | null>(null);
-  const [provider, setProvider] = useState<Provider>("ollama"); const [mode, setMode] = useState<Mode>("answer"); const [artifact, setArtifact] = useState<Artifact | null>(null); const [error, setError] = useState("");
+  const [provider, setProvider] = useState<Provider>((import.meta.env.VITE_DEFAULT_PROVIDER as Provider) || "ollama"); const [mode, setMode] = useState<Mode>("answer"); const [artifact, setArtifact] = useState<Artifact | null>(null); const [error, setError] = useState("");
   const { send, loading, status } = useChatStream();
   const refreshSessions = useCallback(async () => setSessions(await api.listSessions()), []);
   const selectSession = useCallback(async (id: string) => { setError(""); setArtifact(null); try { setSession(await api.getSession(id)); } catch (reason) { setError(reason instanceof Error ? reason.message : "Could not load this chat."); } }, []);

@@ -6,7 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.db_models import TranscriptChunk
-from app.rag.embeddings import OllamaEmbeddingClient
+from app.rag.embeddings import EmbeddingClient
 
 
 INSUFFICIENT_INFORMATION_MESSAGE = (
@@ -51,7 +51,7 @@ def filter_by_relevance(
 class TranscriptRetriever:
     def __init__(
         self,
-        embedding_client: OllamaEmbeddingClient,
+        embedding_client: EmbeddingClient,
         score_threshold: float = 0.52,
         default_top_k: int = 5,
     ) -> None:

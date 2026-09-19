@@ -132,6 +132,12 @@ BACKEND_PORT=8001 FRONTEND_PORT=5174 docker compose up --build
 
 For a fresh database, run ingestion from the local Python environment; it connects through port 5433 to the same Compose volume.
 
+## Free public deployment
+
+The repository includes `render.yaml` and `Dockerfile.render` for a Render Blueprint. It creates one free web service serving React and FastAPI together, plus free PostgreSQL/pgvector. The hosted service uses lightweight MiniLM CPU embeddings because it cannot reach Ollama on your Mac; generation uses Anthropic. Render prompts for `ANTHROPIC_API_KEY` during first creation and never stores it in Git.
+
+Open `https://dashboard.render.com/blueprints`, connect this repository, and deploy the Blueprint. Free services sleep after inactivity, so the first request can take about one minute. Render's free PostgreSQL offering may have limited retention; confirm the current dashboard terms before relying on it beyond this assessment.
+
 ## Cloud Anthropic
 
 Cloud mode is optional locally. Put the key only in `.env`, then restart the backend:

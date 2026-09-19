@@ -8,7 +8,7 @@ from sqlalchemy.dialects.postgresql import insert
 from app.config import get_settings
 from app.database import AsyncSessionFactory, close_database, create_database_schema
 from app.models.db_models import TranscriptChunk
-from app.rag.embeddings import OllamaEmbeddingClient
+from app.rag.embeddings import create_embedding_client
 from app.rag.ingestion import chunk_all, load_transcripts, source_revision
 
 
@@ -54,10 +54,11 @@ async def ingest(limit: int | None = None) -> None:
     print(f"Unchanged chunks: {len(existing_hashes)}")
     print(f"New chunks to embed: {len(new_chunks)}")
 
-    embedder = OllamaEmbeddingClient(
-        base_url=settings.ollama_base_url,
-        model=settings.ollama_embedding_model,
-        expected_dimension=settings.embedding_dimension,
+    embedder = create_embedding_client(settings)
+    embedding_model = (
+        settings.fastembed_model
+        if settings.embedding_provider == "fastembed"
+        else settings.ollama_embedding_model
     )
 
     inserted = 0
@@ -76,7 +77,7 @@ async def ingest(limit: int | None = None) -> None:
                     "chunk_index": chunk.chunk_index,
                     "chunk_text": chunk.chunk_text,
                     "content_hash": chunk.content_hash,
-                    "embedding_model": settings.ollama_embedding_model,
+                    "embedding_model": embedding_model,
                     "embedding": embedding,
                 }
                 for chunk, embedding in zip(batch, embeddings, strict=True)

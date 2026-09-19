@@ -15,7 +15,7 @@ from app.agents.tools import ALLOWED_SDK_TOOLS, AgentToolBundle, create_agent_to
 from app.config import Settings
 from app.database import AsyncSessionFactory
 from app.providers.base import BaseLLMProvider, ChatMessage, ProviderResponseError
-from app.rag.embeddings import OllamaEmbeddingClient
+from app.rag.embeddings import create_embedding_client
 from app.rag.retriever import (
     INSUFFICIENT_INFORMATION_MESSAGE,
     TranscriptRetriever,
@@ -162,11 +162,7 @@ class LocalAgentRunner:
     def __init__(self, settings: Settings, provider: BaseLLMProvider) -> None:
         self.settings = settings
         self.provider = provider
-        embedder = OllamaEmbeddingClient(
-            base_url=settings.ollama_base_url,
-            model=settings.ollama_embedding_model,
-            expected_dimension=settings.embedding_dimension,
-        )
+        embedder = create_embedding_client(settings)
         self.retriever = TranscriptRetriever(
             embedding_client=embedder,
             score_threshold=settings.retrieval_score_threshold,

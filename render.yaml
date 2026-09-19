@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: lenny-growth-assistant-vasasai18
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile.render
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    initialDeployHook: python scripts/download_transcripts.py && python scripts/ingest.py
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: lenny-growth-db
+          property: connectionString
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: EMBEDDING_PROVIDER
+        value: fastembed
+      - key: FASTEMBED_MODEL
+        value: sentence-transformers/all-MiniLM-L6-v2
+      - key: FASTEMBED_CACHE_DIR
+        value: /app/model_cache
+      - key: EMBEDDING_DIMENSION
+        value: 384
+      - key: RETRIEVAL_TOP_K
+        value: 5
+      - key: RETRIEVAL_SCORE_THRESHOLD
+        value: 0.45
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-5
+      - key: ANTHROPIC_API_KEY
+        sync: false
+
+databases:
+  - name: lenny-growth-db
+    plan: free
+    region: singapore
+    postgresMajorVersion: "16"
