@@ -26,7 +26,7 @@ services:
       - key: EMBEDDING_DIMENSION
         value: 384
       - key: EMBEDDING_BATCH_SIZE
-        value: 128
+        value: 32
       - key: RETRIEVAL_TOP_K
         value: 5
       - key: RETRIEVAL_SCORE_THRESHOLD
