@@ -29,7 +29,7 @@ def create_provider(
             )
         return AnthropicProvider(
             api_key=config.anthropic_api_key.get_secret_value(),
-            model=config.anthropic_model or "claude-sonnet-5",
+            model=config.anthropic_model or "claude-sonnet-4-6",
             timeout_seconds=config.llm_timeout_seconds,
         )
 
@@ -37,4 +37,3 @@ def create_provider(
     raise ProviderConfigurationError(
         f"Unknown provider '{selected}'. Supported providers: {supported}."
     )
-

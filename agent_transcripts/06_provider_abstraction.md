@@ -10,7 +10,7 @@ Allow the application to select Ollama or Anthropic per request without changing
 - `OllamaProvider` translates the contract to Ollama's NDJSON `/api/chat` stream.
 - `AnthropicProvider` translates the same contract to Anthropic's official async Messages API stream.
 - `create_provider()` accepts only `ollama` or `anthropic` and defaults to the configured provider.
-- `claude-sonnet-5` is the cloud default based on Anthropic's current model documentation.
+- `claude-sonnet-4-6` is the cloud default used by the hosted Agent SDK integration.
 - The provider is selected explicitly on each future chat request.
 
 ## Failure behavior
@@ -25,4 +25,3 @@ Allow the application to select Ollama or Anthropic per request without changing
 ## Testing
 
 Network transports are mocked for automated tests. Tests cover streaming assembly, malformed Ollama output, Ollama HTTP failure, the Anthropic streaming contract, runtime switching, missing cloud configuration, and unknown providers. A live smoke check calls only local Ollama because no cloud key is required.
-

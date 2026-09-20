@@ -144,7 +144,7 @@ Cloud mode is optional locally. Put the key only in `.env`, then restart the bac
 
 ```dotenv
 ANTHROPIC_API_KEY=your_real_key_here
-ANTHROPIC_MODEL=claude-sonnet-5
+ANTHROPIC_MODEL=claude-sonnet-4-6
 ```
 
 Cloud mode sends the question, bounded history, and retrieved excerpts to Anthropic. There is no automatic local-to-cloud fallback.

@@ -1,8 +1,12 @@
 from collections.abc import Sequence
+import logging
 
 from app.agents.lenny_agent import AgentMode, AgentResult, ClaudeAgentRunner, LocalAgentRunner
 from app.config import Settings, get_settings
-from app.providers import ChatMessage, create_provider
+from app.providers import ChatMessage, ProviderResponseError, create_provider
+
+
+logger = logging.getLogger(__name__)
 
 
 class AgentService:
@@ -17,9 +21,19 @@ class AgentService:
         history: Sequence[ChatMessage],
     ) -> AgentResult:
         if provider_name == "anthropic":
-            return await ClaudeAgentRunner(self.settings).run(
-                user_message, mode=mode, history=history
-            )
+            try:
+                return await ClaudeAgentRunner(self.settings).run(
+                    user_message, mode=mode, history=history
+                )
+            except ProviderResponseError as exc:
+                logger.warning(
+                    "claude_agent_sdk_fallback",
+                    extra={"sdk_error": str(exc), "mode": mode},
+                )
+                provider = create_provider("anthropic", self.settings)
+                return await LocalAgentRunner(self.settings, provider).run(
+                    user_message, mode=mode, history=history
+                )
         provider = create_provider("ollama", self.settings)
         return await LocalAgentRunner(self.settings, provider).run(
             user_message, mode=mode, history=history
@@ -28,4 +42,3 @@ class AgentService:
 
 def get_agent_service() -> AgentService:
     return AgentService(get_settings())
-

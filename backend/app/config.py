@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     llm_timeout_seconds: float = Field(default=120.0, gt=0, le=600)
     default_llm_provider: str = "ollama"
     anthropic_api_key: SecretStr | None = None
-    anthropic_model: str = "claude-sonnet-5"
+    anthropic_model: str = "claude-sonnet-4-6"
     transcript_repository_url: str = (
         "https://github.com/LennysNewsletter/lennys-newsletterpodcastdata.git"
     )

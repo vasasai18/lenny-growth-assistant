@@ -100,7 +100,7 @@ class ClaudeAgentRunner:
             permission_mode="dontAsk",
             max_turns=8,
             max_budget_usd=0.50,
-            model=self.settings.anthropic_model or "claude-sonnet-5",
+            model=self.settings.anthropic_model or "claude-sonnet-4-6",
             env={"ANTHROPIC_API_KEY": api_key},
             setting_sources=[],
         )
@@ -140,7 +140,17 @@ class ClaudeAgentRunner:
             elif isinstance(message, ResultMessage):
                 session_id = message.session_id
                 if message.is_error:
-                    details = "; ".join(message.errors or []) or message.subtype
+                    details = "; ".join(message.errors or [])
+                    if not details:
+                        details = (
+                            message.terminal_reason
+                            or (
+                                f"API status {message.api_error_status}"
+                                if message.api_error_status
+                                else None
+                            )
+                            or message.subtype
+                        )
                     raise ProviderResponseError(f"Claude Agent SDK failed: {details}")
                 result_text = message.result
 
