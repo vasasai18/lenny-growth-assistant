@@ -46,7 +46,6 @@ class AnthropicProvider(BaseLLMProvider):
                     {"role": message.role, "content": message.content}
                     for message in messages
                 ],
-                temperature=temperature,
                 max_tokens=max_tokens,
             ) as stream:
                 async for text in stream.text_stream:
@@ -65,4 +64,3 @@ class AnthropicProvider(BaseLLMProvider):
             raise ProviderUnavailableError(
                 "Anthropic is unavailable or rejected the request."
             ) from exc
-
